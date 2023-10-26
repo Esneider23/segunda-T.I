@@ -6,13 +6,15 @@ variables:
 
 stages:
 - stage: Build
-  displayName: Build and Push Docker Image
+  displayName: Build image
+  pool:
+    name: UTB
   jobs:
   - job: BuildAndPush
     steps:
     - task: Docker@2
       inputs:
-        containerRegistry: 'AWS' # Reemplaza con el nombre de tu contenedor si es necesario.
+        awsCredentials: 'AWS'
         repository: 't.i/segunda-actividad'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
