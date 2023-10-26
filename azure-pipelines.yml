@@ -1,34 +1,22 @@
 trigger:
 - main
 
-pool:
-  name: UTB
-
 variables:
   tag: '$(Build.BuildId)'
 
 stages:
 - stage: Build
   displayName: Build image
+  pool:
+    name: UTB
   jobs:
   - job: BuildAndPush
     steps:
-    - script: |
-        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/z8d0d4x6
-      displayName: 'Login to ECR Public'
-      env:
-        AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)  # Asegúrate de configurar estas variables de entorno en Azure DevOps con tus credenciales de AWS
-        AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
-        AWS_DEFAULT_REGION: us-east-1  # Reemplaza con la región correcta si es diferente
-
-    - script: |
-        docker build -t t.i/segunda-actividad .
-      displayName: 'Build Docker Image'
-
-    - script: |
-        docker tag t.i/segunda-actividad:latest public.ecr.aws/z8d0d4x6/t.i/segunda-actividad:latest
-      displayName: 'Tag Docker Image'
-
-    - script: |
-        docker push public.ecr.aws/z8d0d4x6/t.i/segunda-actividad:latest
-      displayName: 'Push Docker Image'
+    - task: Docker@2
+      inputs:
+        awsCredentials: 'AWS'
+        DOCKER_REPOSITORY_NAME: 't.i/segunda-actividad'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        sourceImageTag: |
+          $(tag)
