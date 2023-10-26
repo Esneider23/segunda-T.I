@@ -14,26 +14,9 @@ stages:
     steps:
     - task: Docker@2
       inputs:
-        command: 'build'
-        Dockerfile: '**/Dockerfile'
-        tags: |
-          $(tag)
-
-- stage: Build
-  displayName: Build test
-  jobs:
-  - job: Build
-    displayName: Build
-    #pool:
-    #  vmImage: ubuntu-latest
-    pool:
-      name: UTB
-    steps:
-    - task: Docker@2
-      inputs:
         containerRegistry: 'AWS'
         repository: 't.i/segunda-actividad'
-        command: 'buildAndPush'
+        command: 'build'
         Dockerfile: '**/Dockerfile'
         tags: |
           $(tag)
