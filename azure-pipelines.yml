@@ -3,6 +3,7 @@ trigger:
 
 variables:
   tag: '$(Build.BuildId)'
+  DOCKER_REPOSITORY_NAME: 'IMAGEN'
 
 stages:
 - stage: Build
@@ -11,14 +12,14 @@ stages:
     name: UTB
   jobs:
   - job: BuildAndPush
+    displayName: Build
+    pool:
+      name: UTB
     steps:
-    - task: ECRPushImage@1
+    - task: Docker@2
       inputs:
-        awsCredentials: 'AWS'
-        imageSource: 'imagename'
+        command: 'build'
+        repository: $(DOCKER_REPOSITORY_NAME)
         Dockerfile: '**/Dockerfile'
-        command: 'buildAndPush'
-        sourceImageName: | 
+        tags: |
           $(tag)
-        repositoryName: 't.i/segunda-actividad'
-        
