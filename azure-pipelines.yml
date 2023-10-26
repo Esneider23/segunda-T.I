@@ -36,6 +36,7 @@ stages:
       - task: ECRPushImage@1
         inputs:
            awsCredentials: 'AWS'
+           AWS_REGION: "ap-southeast-2"
            imageSource: 'imagename'
            sourceImageName: $(DOCKER_REPOSITORY_NAME)
            sourceImageTag: $(tag)
