@@ -6,14 +6,22 @@
 trigger:
 - main
 
-pool:
-  vmImage: ubuntu-latest
+variables:
+  tag: '$(Build.BuildId)'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+stages:
+  -stage: Build
+  -displayName: Build image
+  #pool:
+    #  vmImage: ubuntu-latest
+    pool:
+      name: UTB
+    steps:
+    - task: Docker@2
+    inputs:
+        containerRegistry: 'AWS ECR'
+        repository: 't.i/segunda-actividad'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: |
+          $(tag)
