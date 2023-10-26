@@ -12,11 +12,13 @@ stages:
   jobs:
   - job: BuildAndPush
     steps:
-    - task: Docker@2
+    - task: ECRPushImage@1
       inputs:
         awsCredentials: 'AWS'
-        awsrepositoryName: 't.i/segunda-actividad'
-        command: 'buildAndPush'
+        imageSource: 'imagename'
         Dockerfile: '**/Dockerfile'
-        sourceImageTag: |
+        command: 'buildAndPush'
+        sourceImageName: | 
           $(tag)
+        repositoryName: 't.i/segunda-actividad'
+        
