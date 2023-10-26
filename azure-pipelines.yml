@@ -23,3 +23,12 @@ stages:
         Dockerfile: '**/Dockerfile'
         tags: |
           $(tag)
+    
+    - task: ECRPushImage@1
+        inputs:
+           awsCredentials: 'AWS'
+           imageSource: 'imagename'
+           sourceImageName: $(DOCKER_REPOSITORY_NAME)
+           sourceImageTag: $(tag)
+           repositoryName: 't.i/segunda-actividad'
+           pushTag: latest
