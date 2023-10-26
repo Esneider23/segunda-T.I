@@ -16,7 +16,7 @@ stages:
       inputs:
         awsCredentials: 'AWS'
         repositoryName: 't.i/segunda-actividad'
-        command: 'build'
+        command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
         tags: |
           $(tag)
