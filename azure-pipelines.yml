@@ -5,10 +5,12 @@ variables:
   tag: '$(Build.BuildId)'
 
 stages:
-  - stage: Build 
-    displayName: Build image
-    pool:
-      name: UTB
+- stage: Build
+  displayName: Build image
+  pool:
+    name: UTB
+  jobs:
+  - job: BuildAndPush
     steps:
     - task: Docker@2
       inputs:
