@@ -24,7 +24,7 @@ stages:
         tags: |
           $(tag)
 
-- stages: push
+- stage: push
   displayName: Build image
   dependsOn: Build
   jobs:
