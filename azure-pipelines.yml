@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - main
 
@@ -10,15 +5,13 @@ variables:
   tag: '$(Build.BuildId)'
 
 stages:
-  -stage: Build
-  -displayName: Build image
-  #pool:
-    #  vmImage: ubuntu-latest
+  - stage: Build 
+    displayName: Build image
     pool:
       name: UTB
     steps:
     - task: Docker@2
-    inputs:
+      inputs:
         containerRegistry: 'AWS ECR'
         repository: 't.i/segunda-actividad'
         command: 'buildAndPush'
