@@ -14,7 +14,7 @@ stages:
     steps:
     - task: Docker@2
       inputs:
-        containerRegistry: 'AWS ECR'
+        containerRegistry: 'AWS'
         repository: 't.i/segunda-actividad'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
