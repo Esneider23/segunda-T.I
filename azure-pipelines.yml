@@ -14,7 +14,7 @@ stages:
     steps:
     - task: Docker@2
       inputs:
-        containerRegistry: 'AWS'
+        awsCredentials: 'AWS'
         repository: 't.i/segunda-actividad'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
