@@ -146,14 +146,76 @@ resource "aws_security_group" "security_task" {
 }
 
 
+resource "aws_iam_role" "ecs_execution_role" {
+  name = "ecs_execution_role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = "sts:AssumeRole",
+        Effect = "Allow",
+        Principal = {
+          Service = "ecs-tasks.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "ecr_policy" {
+  name        = "ecr_policy"
+  description = "Permissions for accessing ECR"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = [
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetAuthorizationToken",
+          "ecr:GetRegistryCatalogData",
+          "ecr:ListImages",
+          "ecr:DescribeImages",
+        ],
+        Effect   = "Allow",
+        Resource = "*",
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_execution_role_attachment" {
+  policy_arn = aws_iam_policy.ecr_policy.arn
+  role       = aws_iam_role.ecs_execution_role.name
+}
+
+resource "aws_iam_role" "ecs_task_role" {
+  name = "ecs_task_role"
+  
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = "sts:AssumeRole",
+        Effect = "Allow",
+        Principal = {
+          Service = "ecs-tasks.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
 resource "aws_ecs_task_definition" "TI" {
   family                   = "Segunda_ti"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = 1024
   memory                   = 2048
-  execution_role_arn       = "arn:aws:iam::244410002174:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS"
-  task_role_arn            = "arn:aws:iam::244410002174:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS"
+  execution_role_arn       = aws_iam_role.ecs_execution_role.arn
+  task_role_arn            = aws_iam_role.ecs_task_role.arn
   
 
   container_definitions = <<DEFINITION
