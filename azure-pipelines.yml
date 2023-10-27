@@ -57,10 +57,11 @@ stages:
             set -e 
 
             terraform init -input=false
+            terraform validate -input=true
             terraform apply -input=false -auto-approve
           name: 'RunTerraform'
           displayName: 'Run Terraform'
           env: # these vars are being passed from the variable library that we specified in Azure DevOps
-            ACCESS_KEY: $(ACCESS_KEY)
-            SECRET_KEY: $(SECRET_KEY)
+            AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+            AWS_SECRET_KEY: $(AWS_SECRET_KEY)
             TF_VAR_imagebuild: $(Build.BuildId)
