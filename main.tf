@@ -120,66 +120,6 @@ resource "aws_security_group" "security_task" {
   }
 }
 
-resource "awsaws_iam_role" "ecs_execution_role" {
-  name = "ecs_execution_role"
-}
-
-resource "aws_iam_policy" "ecs_execution_policy" {
-  name        = "ecs_execution_policy"
-  description = "Policy for ECS execution role"
-
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Action = [
-          "ecr:GetAuthorizationToken",
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:GetRepositoryPolicy",
-          "ecr:ListImages",
-          "ecr:BatchCheckLayerAvailability",
-          "ecr:GetLifecyclePolicy",
-          "ecr:GetLifecyclePolicyPreview",
-          "ecr:DescribeRepositories",
-          "ecr:GetImageScan",
-          "ecr:GetImageManifest",
-          "ecr:BatchGetImage",
-        ],
-        Resource = "*",
-        Effect   = "Allow",
-      },
-      {
-        Action = [
-          "ecs:CreateCluster",
-          "ecs:DeregisterContainerInstance",
-          "ecs:DiscoverPollEndpoint",
-          "ecs:ListClusters",
-          "ecs:Poll",
-          "ecs:RegisterContainerInstance",
-          "ecs:SubmitContainerStateChange",
-          "ecs:SubmitTaskStateChange",
-        ],
-        Resource = "*",
-        Effect   = "Allow",
-      },
-      {
-        Action = [
-          "ec2:CreateNetworkInterface",
-          "ec2:DescribeNetworkInterfaces",
-          "ec2:DeleteNetworkInterface",
-        ],
-        Resource = "*",
-        Effect   = "Allow",
-      },
-    ],
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "ecs_execution_role_policy_attachment" {
-  policy_arn = aws_iam_policy.ecs_execution_policy.arn
-  role       = aws_iam_role.ecs_execution_role.name
-}
-
 
 resource "aws_ecs_task_definition" "TI" {
   family                   = "Segunda_ti"
@@ -187,7 +127,9 @@ resource "aws_ecs_task_definition" "TI" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = 1024
   memory                   = 2048
-  execution_role_arn        = aws_iam_role.ecs_execution_role.arn
+  execution_role_arn       = "arn:aws:iam::244410002174:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS"
+  task_role_arn            = "arn:aws:iam::244410002174:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS"
+  
 
   container_definitions = <<DEFINITION
 [
