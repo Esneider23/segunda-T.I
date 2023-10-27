@@ -18,7 +18,7 @@ stages:
     - task: Docker@2
       inputs:
         command: 'build'
-        repository: $(AWS_ECR_REPOSITORY_NAME)
+        repository: $(AWS_ECR_MAGE_URI)
         Dockerfile: '**/Dockerfile'
         tags: |
           $(Build.BuildId)
