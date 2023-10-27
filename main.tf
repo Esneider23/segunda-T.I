@@ -120,7 +120,7 @@ resource "aws_security_group" "T_I_task" {
   }
 }
 
-resource "aws_ecs_task_definition" "T_I" {
+resource "aws_ecs_task_definition" "TI" {
   family                   = "Segunda_ti"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
@@ -150,15 +150,15 @@ resource "aws_ecs_cluster" "main" {
   name = "example-cluster"
 }
 
-resource "aws_ecs_service" "Segunda-TI" {
+resource "aws_ecs_service" "Segunda_TI" {
   name            = "net-aplication"
   cluster         = aws_ecs_cluster.main.id
-  task_definition = aws_ecs_task_definition.T_I.arn
+  task_definition = aws_ecs_task_definition.TI.arn
   desired_count   = var.app_count
   launch_type     = "FARGATE"
 
   network_configuration {
-    security_groups = [aws_security_group.T_I_task.id]
+    security_groups = [aws_security_group.TI_task.id]
     subnets         = aws_subnet.private.*.id
   }
 }
