@@ -101,7 +101,7 @@ resource "aws_security_group" "lb" {
   }
 }
 
-resource "aws_security_group" "TI_task" {
+resource "aws_security_group" "security_task" {
   name        = "example-task-security-group"
   vpc_id      = aws_vpc.default.id
 
@@ -158,7 +158,7 @@ resource "aws_ecs_service" "Segunda_TI" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    security_groups = [aws_security_group.TI_task.id]
+    security_groups = [aws_security_group.security_task.id]
     subnets         = aws_subnet.private.*.id
   }
 }
