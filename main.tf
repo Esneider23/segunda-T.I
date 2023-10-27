@@ -264,7 +264,7 @@ resource "aws_ecs_task_definition" "T_I" {
   container_definitions = <<DEFINITION
 [
   {
-    "image": "${var.AWS_URI_CONTAINER}:${var.imagebuild}",
+    "image": "${AWS_URI_CONTAINER}:${var.imagebuild}",
     "cpu": 1024,
     "memory": 2048,
     "name": "Segunda-t.i",
@@ -284,7 +284,7 @@ resource "aws_ecs_cluster" "main" {
   name = "example-cluster"
 }
 
-resource "aws_ecs_service" "Segunda-T.I" {
+resource "aws_ecs_service" "Segunda-TI" {
   name            = "net-aplication"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.T_I.arn
