@@ -101,6 +101,31 @@ resource "aws_security_group" "lb" {
   }
 }
 
+resource "aws_lb" "default" {
+  name            = "example-lb"
+  subnets         = aws_subnet.public.*.id
+  security_groups = [aws_security_group.lb.id]
+}
+
+resource "aws_lb_target_group" "segunda_Ti" {
+  name        = "Segunda_TI"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = aws_vpc.default.id
+  target_type = "ip"
+}
+
+resource "aws_lb_listener" "SEGUNDA" {
+  load_balancer_arn = aws_lb.default.id
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    target_group_arn = aws_lb_target_group.segunda_Ti.id
+    type             = "forward"
+  }
+}
+
 resource "aws_security_group" "security_task" {
   name        = "example-task-security-group"
   vpc_id      = aws_vpc.default.id
@@ -141,8 +166,8 @@ resource "aws_ecs_task_definition" "TI" {
     "networkMode": "awsvpc",
     "portMappings": [
       {
-        "containerPort": 80,
-        "hostPort": 80
+        "containerPort": 3000,
+        "hostPort": 3000
       }
     ]
   }
@@ -165,4 +190,14 @@ resource "aws_ecs_service" "Segunda_TI" {
     security_groups = [aws_security_group.security_task.id]
     subnets         = aws_subnet.private.*.id
   }
+  load_balancer {
+    target_group_arn = aws_lb_target_group.segunda_Ti.id
+    container_name = "test"
+    container_port  = 3000
+  }
+  depends_on = [aws_lb_listener.SEGUNDA]
+}
+
+output "load_balancer_ip" {
+  value = aws_lb.default.dns_name
 }
