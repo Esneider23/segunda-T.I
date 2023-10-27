@@ -41,5 +41,4 @@ stages:
            sourceImageTag: $(Build.BuildId)
            pushTag: $(Build.BuildId)
            sourceImageName: $(DOCKER_REPOSITORY_NAME)
-           sourceImageTag: $(tag)
            repositoryName: 't.i/segunda-actividad'
