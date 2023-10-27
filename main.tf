@@ -122,7 +122,7 @@ resource "aws_lb_listener" "listener" {
   protocol          = "HTTP"
 
   default_action {
-    target_group_arn = aws_lb_target_group.segunda_Ti.id
+    target_group_arn = aws_lb_target_group.target_group.id
     type             = "forward"
   }
 }
