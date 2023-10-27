@@ -29,7 +29,6 @@ data "aws_iam_role" "ecsTaskExecutionRole" {
   name = "ecsTaskExecutionRole"
 }
 
-
 resource "aws_ecs_task_definition" "app_task" {
   family                   = "app-first-task" 
   container_definitions    = <<DEFINITION
@@ -49,12 +48,15 @@ resource "aws_ecs_task_definition" "app_task" {
     }
   ]
   DEFINITION
-  requires_compatibilities = ["FARGATE"] # use Fargate as the launch type
-  network_mode             = "awsvpc"    # add the AWS VPN network mode as this is required for Fargate
-  memory                   = 512         # Specify the memory the container requires
-  cpu                      = 256         # Specify the CPU the container requires
-  execution_role_arn       = data.aws_iam_role.ecsTaskExecutionRole
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  memory                   = 512
+  cpu                      = 256
+  execution_role_arn       = data.aws_iam_role.ecsTaskExecutionRole.arn 
 }
+
+
+
 
 
 
