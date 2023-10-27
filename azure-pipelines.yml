@@ -41,3 +41,26 @@ stages:
            pushTag: $(Build.BuildId)
            sourceImageName: $(AWS_ECR_MAGE_URI)
            repositoryName: $(AWS_ECR_REPOSITORY_NAME)
+
+- stage: Provision
+  displayName: 'Creating terraform on Azure'
+  dependsOn: push
+  jobs:
+    - job : provision
+      displayName: 'Provision container instance'
+      pool:
+        name: UTB
+      variables: # vars from azure devOps in library
+      - group: Terraform
+      steps:
+        - script: |
+            set -e 
+
+            terraform init -input=false
+            terraform apply -input=false -auto-approve
+          name: 'RunTerraform'
+          displayName: 'Run Terraform'
+          env: # these vars are being passed from the variable library that we specified in Azure DevOps
+            ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+            ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+            TF_VAR_imagebuild: $(Build.BuildId)
