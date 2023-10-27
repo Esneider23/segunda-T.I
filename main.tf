@@ -133,7 +133,7 @@ resource "aws_ecs_task_definition" "TI" {
     "image": "244410002174.dkr.ecr.us-east-1.amazonaws.com/t.i/segunda-actividad:${var.imagebuild}",
     "cpu": 1024,
     "memory": 2048,
-    "name": "Segunda-t.i",
+    "name": "Segunda_ti",
     "networkMode": "awsvpc",
     "portMappings": [
       {
