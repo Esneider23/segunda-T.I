@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "sl7Zj/XdmaWCK0J/H4lvHv0kWMYff4EgIiG6YKrCiULEsuAxXpFHJpt3farUVeNrOAetYlj3/JSF/R1OK/36Cg==",
+  "success": true,
+  "projectFilePath": "/home/esneider/segunda-T.I/utbapp.csproj",
+  "expectedPackageFiles": [
+    "/home/esneider/.nuget/packages/microsoft.netcore.app.ref/6.0.23/microsoft.netcore.app.ref.6.0.23.nupkg.sha512",
+    "/home/esneider/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.23/microsoft.aspnetcore.app.ref.6.0.23.nupkg.sha512",
+    "/home/esneider/.nuget/packages/microsoft.netcore.app.host.linux-x64/6.0.23/microsoft.netcore.app.host.linux-x64.6.0.23.nupkg.sha512"
+  ],
+  "logs": []
+}
