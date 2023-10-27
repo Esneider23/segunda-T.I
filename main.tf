@@ -101,7 +101,7 @@ resource "aws_security_group" "lb" {
   }
 }
 
-resource "aws_security_group" "T_I_task" {
+resource "aws_security_group" "TI_task" {
   name        = "example-task-security-group"
   vpc_id      = aws_vpc.default.id
 
