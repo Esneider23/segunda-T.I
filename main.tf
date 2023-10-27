@@ -141,7 +141,7 @@ resource "aws_ecs_cluster" "main" {
   name = "example-cluster"
 }
 
-resource "aws_ecs_service" "Segunda-T.I" {
+resource "aws_ecs_service" "Segunda-TI" {
   name            = "net-aplication"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.T_I.arn
