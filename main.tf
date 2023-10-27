@@ -5,7 +5,7 @@ terraform {
             version = "~> 4.16"
         }
     }
-    backend "aws" {
+    backend "s3" {
         bucket         = "rgterraform"
         key            = "tfstatesdevops/terraform.tfstate"
     }
