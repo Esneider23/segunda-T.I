@@ -56,7 +56,7 @@ resource "aws_ecs_task_definition" "app_task" {
   execution_role_arn       = data.aws_iam_role.ecsTaskExecutionRole.arn 
 }
 
-resource "aws_vpc" "default_vpc" {
+resource "aws_default_vpc" "default_vpc" {
 }
 
 resource "aws_default_subnet" "default_subnet_a" {
@@ -103,7 +103,7 @@ resource "aws_lb_target_group" "target_group" {
   port        = 80
   protocol    = "HTTP"
   target_type = "ip"
-  vpc_id      = "${aws_default_vpc.default_vpc.id}" # default VPC
+  vpc_id      = "${aws_default_vpc.default_vpc.id}"
 }
 
 resource "aws_lb_listener" "listener" {
@@ -127,7 +127,7 @@ resource "aws_ecs_service" "app_service" {
   load_balancer {
     target_group_arn = "${aws_lb_target_group.target_group.arn}" # Reference the target group
     container_name   = "${aws_ecs_task_definition.app_task.family}"
-    container_port   = 5000 # Specify the container port
+    container_port   = 80 # Specify the container port
   }
 
   network_configuration {
