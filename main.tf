@@ -14,6 +14,11 @@ terraform {
 variable "imagebuild" {
   type = string
   description = "the latest image build version"
+  value = "latest"
+}
+
+data "aws_availability_zones" "available_zones" {
+  state = "available"
 }
 
 resource "aws_vpc" "default" {
@@ -112,7 +117,7 @@ resource "aws_security_group" "T_I_task" {
 }
 
 resource "aws_ecs_task_definition" "T_I" {
-  family                   = "Segunda-t.i"
+  family                   = "Segunda_ti"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = 1024
