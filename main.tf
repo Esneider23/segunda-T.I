@@ -25,21 +25,10 @@ resource "aws_ecs_cluster" "my_cluster" {
   name = "ACTIVIDAD-TI" 
 }
 
-resource "aws_iam_role" "ecsTaskExecutionRole" {
-  name               = "ecsTaskExecutionRole"
-  assume_role_policy = "${data.aws_iam_policy_document.assume_role_policy.json}"
+data "aws_iam_role" "ecsTaskExecutionRole" {
+  name = "ecsTaskExecutionRole"
 }
 
-data "aws_iam_policy_document" "assume_role_policy" {
-  statement {
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["ecs-tasks.amazonaws.com"]
-    }
-  }
-}
 
 resource "aws_iam_role_policy_attachment" "ecsTaskExecutionRole_policy" {
   role       = "${aws_iam_role.ecsTaskExecutionRole.name}"
@@ -69,7 +58,7 @@ resource "aws_ecs_task_definition" "app_task" {
   network_mode             = "awsvpc"    # add the AWS VPN network mode as this is required for Fargate
   memory                   = 512         # Specify the memory the container requires
   cpu                      = 256         # Specify the CPU the container requires
-  execution_role_arn       = aws_iam_role.ecsTaskExecutionRole.arn
+  execution_role_arn       = data.aws_iam_role.ecsTaskExecutionRole
 }
 
 
