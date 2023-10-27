@@ -192,7 +192,7 @@ resource "aws_ecs_service" "Segunda_TI" {
   }
   load_balancer {
     target_group_arn = aws_lb_target_group.segunda_Ti.id
-    container_name = "test"
+    container_name = "Segunda_ti"
     container_port  = 3000
   }
   depends_on = [aws_lb_listener.SEGUNDA]
