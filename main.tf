@@ -14,7 +14,6 @@ terraform {
 variable "imagebuild" {
   type = string
   description = "the latest image build version"
-  value = "latest"
 }
 
 data "aws_availability_zones" "available_zones" {
