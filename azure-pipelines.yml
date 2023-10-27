@@ -2,8 +2,7 @@ trigger:
 - main
 
 variables:
-  tag: '$(Build.BuildId)'
-  DOCKER_REPOSITORY_NAME: 'public.ecr.aws/z8d0d4x6/t.i/segunda-actividad'
+  - group: var
 
 stages:
 - stage: Build
@@ -19,10 +18,10 @@ stages:
     - task: Docker@2
       inputs:
         command: 'build'
-        repository: $(DOCKER_REPOSITORY_NAME)
+        repository: $((AWS_ECR_MAGE_URI)
         Dockerfile: '**/Dockerfile'
         tags: |
-          $(tag)
+          $(Build.BuildId)
 
 - stage: push
   displayName: Build image
@@ -36,9 +35,9 @@ stages:
       - task: ECRPushImage@1
         inputs:
            awsCredentials: 'AWS'
-           AWS_REGION: "ap-southeast-2"
+           AWS_REGION: $(AWS_REGION)
            imageSource: 'imagename'
            sourceImageTag: $(Build.BuildId)
            pushTag: $(Build.BuildId)
-           sourceImageName: $(DOCKER_REPOSITORY_NAME)
-           repositoryName: 't.i/segunda-actividad'
+           sourceImageName: $(AWS_ECR_MAGE_URI)
+           repositoryName: $(AWS_ECR_REPOSITORY_NAME)
