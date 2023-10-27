@@ -16,6 +16,11 @@ variable "imagebuild" {
   description = "the latest image build version"
 }
 
+variable "app_count" {
+  type = number
+  default = 1
+}
+
 data "aws_availability_zones" "available_zones" {
   state = "available"
 }
@@ -54,6 +59,26 @@ resource "aws_ecs_task_definition" "app_task" {
   cpu                      = 256
   execution_role_arn       = data.aws_iam_role.ecsTaskExecutionRole.arn 
 }
+
+resource "aws_vpc" "default" {
+    cidr_block = "10.32.0.0/16"
+}
+
+resource "aws_subnet" "public" {
+    count                   = 2
+    cidr_block              = cidrsubnet(aws_vpc.default.cidr_block, 8, 2 + count.index)
+    availability_zone       = data.aws_availability_zones.available_zones.names[count.index]
+    vpc_id                  = aws_vpc.default.id
+    map_public_ip_on_launch = true
+}
+
+resource "aws_subnet" "private" {
+  count             = 2
+  cidr_block        = cidrsubnet(aws_vpc.default.cidr_block, 8, count.index)
+  availability_zone = data.aws_availability_zones.available_zones.names[count.index]
+  vpc_id            = aws_vpc.default.id
+}
+
 
 
 
