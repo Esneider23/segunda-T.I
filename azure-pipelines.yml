@@ -61,6 +61,6 @@ stages:
           name: 'RunTerraform'
           displayName: 'Run Terraform'
           env: # these vars are being passed from the variable library that we specified in Azure DevOps
-            ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-            ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+            ACCESS_KEY: $(ACCESS_KEY)
+            SECRET_KEY: $(SECRET_KEY)
             TF_VAR_imagebuild: $(Build.BuildId)
