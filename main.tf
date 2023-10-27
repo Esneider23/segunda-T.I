@@ -108,7 +108,7 @@ resource "aws_lb" "default" {
 }
 
 resource "aws_lb_target_group" "segunda_Ti" {
-  name        = "Segunda_TI"
+  name        = "Segunda-TI"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = aws_vpc.default.id
