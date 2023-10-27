@@ -101,10 +101,7 @@ resource "aws_security_group" "lb" {
 resource "aws_lb" "default" {
   name            = "example-lb"
   load_balancer_type = "application"
-  subnets         = [
-    "${aws_subnet.public.*.id}",
-    "${aws_subnet.private.*.id}"
-  ]
+  subnets         = aws_subnet.public.*.id
   security_groups = [aws_security_group.lb.id]
 }
 
