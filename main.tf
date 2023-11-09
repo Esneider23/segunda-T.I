@@ -82,7 +82,7 @@ resource "aws_security_group" "load_balancer_security_group" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  vpc_id = aws_default_vpc.id
+  vpc_id = aws_default_vpc.default_vpc.id
 }
 
 
