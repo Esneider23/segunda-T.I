@@ -36,7 +36,7 @@ resource "aws_ecs_task_definition" "app_task" {
   [
     {
       "name": "app-first-task",
-      "image": "244410002174.dkr.ecr.us-east-1.amazonaws.com/t.i/segunda-actividad:${var.imagebuild}",
+      "image": "244410002174.dkr.ecr.us-east-1.amazonaws.com/segunda-actividad:${var.imagebuild}",
       "essential": true,
       "portMappings": [
         {
