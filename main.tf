@@ -59,11 +59,22 @@ resource "aws_ecs_task_definition" "app_task" {
 resource "aws_default_vpc" "default_vpc" {
 }
 
+resource "aws_default_subnet" "default_subnet_a" {
+  availability_zone = "us-east-1a"
+}
+
+resource "aws_default_subnet" "default_subnet_b" {
+  availability_zone = "us-east-1b"
+}
+
 
 resource "aws_alb" "application_load_balancer" {
   name               = "segunda-actividad-t-i"
   load_balancer_type = "application"
-  subnets = []
+  subnets = [
+    "${aws_default_subnet.default_subnet_a.id}",
+    "${aws_default_subnet.default_subnet_b.id}"
+  ]
   # security group
   security_groups = ["${aws_security_group.load_balancer_security_group.id}"]
 }
@@ -82,7 +93,6 @@ resource "aws_security_group" "load_balancer_security_group" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  vpc_id = aws_default_vpc.default_vpc.id
 }
 
 
@@ -119,7 +129,7 @@ resource "aws_ecs_service" "app_service" {
   }
 
   network_configuration {
-    subnets          = []
+    subnets          = ["${aws_default_subnet.default_subnet_a.id}", "${aws_default_subnet.default_subnet_b.id}"]
     assign_public_ip = true     # Provide the containers with public IPs
     security_groups  = ["${aws_security_group.service_security_group.id}"] # Set up the security group
   }
