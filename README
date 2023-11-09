@@ -29,5 +29,6 @@ Para el despliegue de infraestructura usando Terraform a través de Azure DevOps
    - `AWS_ACCOUNT_ID`: Identificación de clave de acceso de AWS.
    - `AWS_ECR_REPOSITORY_NAME`: Nombre del repositorio privado ECR.
    - `AWS_REGION`: Región predeterminada de AWS, por ejemplo, `us-east-1`.
-   - `AWS_ECR_MAGE_URI`´:  URI DEL ECR
-
+   - `AWS_ECR_MAGE_URI`:  URI DEL ECR
+   - `AWS_ACCESS_KEY_ID` Key de aws
+   - `AWS_SECRET_KEY`: secret key de aws
