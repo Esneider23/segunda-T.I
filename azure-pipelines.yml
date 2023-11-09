@@ -51,7 +51,7 @@ stages:
       pool:
         name: UTB
       variables: # vars from azure devOps in library
-      - group: var
+      - group: terraform
       steps:
         - script: |
             set -e 
