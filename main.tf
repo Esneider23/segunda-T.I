@@ -127,7 +127,10 @@ resource "aws_ecs_service" "app_service" {
     container_name   = "${aws_ecs_task_definition.app_task.family}"
     container_port   = 80 # Specify the container port
   }
-
+  network_configuration {
+    subnets = ["${aws_default_subnet.default_subnet_a.id}", "${aws_default_subnet.default_subnet_b.id}"]
+    security_groups = ["${aws_security_group.service_security_group.id}"]
+  }
 }
 
 resource "aws_security_group" "service_security_group" {
