@@ -36,7 +36,7 @@ resource "aws_ecs_task_definition" "app_task" {
   [
     {
       "name": "app-first-task",
-      "image": "244410002174.dkr.ecr.us-east-1.amazonaws.com/segunda-actividad:${var.imagebuild}",
+      "image": "244410002174.dkr.ecr.us-east-1.amazonaws.com/t.i/segunda-actividad:${var.imagebuild}",
       "essential": true,
       "portMappings": [
         {
@@ -49,7 +49,7 @@ resource "aws_ecs_task_definition" "app_task" {
     }
   ]
   DEFINITION
-  requires_compatibilities = ["EC2"]
+  requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   memory                   = 512
   cpu                      = 256
@@ -119,7 +119,7 @@ resource "aws_ecs_service" "app_service" {
   name            = "app-first-service"     # Name the service
   cluster         = "${aws_ecs_cluster.my_cluster.id}"   # Reference the created Cluster
   task_definition = "${aws_ecs_task_definition.app_task.arn}" # Reference the task that the service will spin up
-  launch_type     = "EC2"
+  launch_type     = "FARGATE"
   desired_count   = 3 # Set up the number of containers to 3
 
   load_balancer {
@@ -127,9 +127,11 @@ resource "aws_ecs_service" "app_service" {
     container_name   = "${aws_ecs_task_definition.app_task.family}"
     container_port   = 80 # Specify the container port
   }
+
   network_configuration {
-    subnets = ["${aws_default_subnet.default_subnet_a.id}", "${aws_default_subnet.default_subnet_b.id}"]
-    security_groups = ["${aws_security_group.service_security_group.id}"]
+    subnets          = ["${aws_default_subnet.default_subnet_a.id}", "${aws_default_subnet.default_subnet_b.id}"]
+    assign_public_ip = true     # Provide the containers with public IPs
+    security_groups  = ["${aws_security_group.service_security_group.id}"] # Set up the security group
   }
 }
 
