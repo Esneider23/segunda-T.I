@@ -128,11 +128,6 @@ resource "aws_ecs_service" "app_service" {
     container_port   = 80 # Specify the container port
   }
 
-  network_configuration {
-    subnets          = ["${aws_default_subnet.default_subnet_a.id}", "${aws_default_subnet.default_subnet_b.id}"]
-    assign_public_ip = true     # Provide the containers with public IPs
-    security_groups  = ["${aws_security_group.service_security_group.id}"] # Set up the security group
-  }
 }
 
 resource "aws_security_group" "service_security_group" {
